@@ -2,9 +2,17 @@ dev:
 	$(eval DEPLOY_ENV=dev)
 	$(eval AZURE_SUBSCRIPTION=s165-teachingqualificationsservice-development)
 
+prod:
+	$(eval DEPLOY_ENV=prod)
+	$(eval AZURE_SUBSCRIPTION=s165-teachingqualificationsservice-production)
+
 read-keyvault-config:
 	$(eval KEY_VAULT_NAME=$(shell jq -r '.key_vault_name' terraform/workspace_variables/$(DEPLOY_ENV).tfvars.json))
 	$(eval KEY_VAULT_SECRET_NAME=$(shell jq -r '.key_vault_secret_name' terraform/workspace_variables/$(DEPLOY_ENV).tfvars.json))
+
+set-azure-account: ${environment}
+	echo "Logging on to ${AZURE_SUBSCRIPTION}"
+	az account set -s ${AZURE_SUBSCRIPTION}
 
 ci:	## Run in automation environment
 	$(eval DISABLE_PASSCODE=true)
@@ -39,3 +47,6 @@ terraform-plan: terraform-init
 
 terraform-apply: terraform-init
 	terraform -chdir=terraform apply -var-file workspace_variables/${DEPLOY_ENV}.tfvars.json ${AUTO_APPROVE}
+
+terraform-destroy: terraform-init
+	terraform -chdir=terraform destroy -var-file workspace_variables/${DEPLOY_ENV}.tfvars.json ${AUTO_APPROVE}
