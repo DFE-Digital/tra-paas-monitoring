@@ -20,6 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
     environment: dev
+    strategy:
+      matrix:
+        url: ["https://prometheus-tra-monitoring-dev.london.cloudapps.digital/api/v1/status/buildinfo", "https://alertmanager-tra-monitoring-dev.london.cloudapps.digital/", "https://grafana-tra-monitoring-prod.london.cloudapps.digital/" ]
     steps:
     - uses: actions/checkout@v2
 
@@ -46,7 +49,7 @@ jobs:
     - name: Integration Test
       uses: wei/curl@master
       with:
-        args: https://prometheus-tra-monitoring-dev.london.cloudapps.digital/api/v1/status/buildinfo
+        args: ${{ matrix.url }}
 
 
   deploy_prod:
