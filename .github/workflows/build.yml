@@ -43,11 +43,10 @@ jobs:
         environment_name: dev
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Integration Test
-      uses: wei/curl@master
+    - name: Run Integration tests
+      uses: ./.github/workflows/actions/integration-test
       with:
-        args: ${{ matrix.url }}
-
+        monitoring_instance_name: tra-monitoring-dev
 
   deploy_prod:
     name: Deploy to prod environment
