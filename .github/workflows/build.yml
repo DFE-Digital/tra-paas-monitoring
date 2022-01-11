@@ -42,8 +42,8 @@ jobs:
       with:
         environment_name: dev
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
-        # docker_username: ${{ secrets.DOCKER_USERNAME }}
-        # docker_password: ${{ secrets.DOCKER_PASSWORD }}
+        docker_username: ${{ secrets.DOCKER_USERNAME }}
+        docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Run Integration tests
       uses: ./.github/workflows/actions/integration-test

@@ -15,6 +15,6 @@ variable "monitor_scrape_applications" {
 }
 variable "monitor_scrape_backing_services" {}
 
-# variable "docker_username" {}
+variable "docker_username" {}
 
-# variable "docker_password" {}
+variable "docker_password" {}

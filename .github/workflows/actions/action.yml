@@ -7,10 +7,10 @@ inputs:
   azure_credentials:
     description: JSON object containing a service principal that can read from Azure Key Vault
     required: true
-  # docker_username:
-  #   required: true
-  # docker_password:
-  #   required: true
+  docker_username:
+    required: true
+  docker_password:
+    required: true
 
 runs:
   using: composite

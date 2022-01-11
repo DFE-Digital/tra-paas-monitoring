@@ -12,5 +12,5 @@ module "prometheus_all" {
   postgres_services            = var.monitor_scrape_backing_services
   grafana_google_client_id     = local.secrets.GRAFANA_GOOGLE_CLIENT_ID
   grafana_google_client_secret = local.secrets.GRAFANA_GOOGLE_CLIENT_SECRET
-  # docker_credentials           = local.docker_credentials
+  docker_credentials           = local.docker_credentials
 }
