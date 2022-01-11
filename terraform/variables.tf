@@ -14,3 +14,7 @@ variable "monitor_scrape_applications" {
   default = []
 }
 variable "monitor_scrape_backing_services" {}
+
+variable "docker_username" {}
+
+variable "docker_password" {}

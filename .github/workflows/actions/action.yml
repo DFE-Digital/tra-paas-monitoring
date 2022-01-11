@@ -7,6 +7,10 @@ inputs:
   azure_credentials:
     description: JSON object containing a service principal that can read from Azure Key Vault
     required: true
+  docker_username:
+    required: true
+  docker_password:
+    required: true
 
 runs:
   using: composite
@@ -38,4 +42,6 @@ runs:
       env:
         ARM_ACCESS_KEY: ${{ steps.get_secrets.outputs.TFSTATE-CONTAINER-ACCESS-KEY }}
         TF_VAR_azure_sp_credentials_json: ${{ inputs.azure_credentials }}
+        TF_VAR_docker_username: ${{ inputs.docker_username }}
+        TF_VAR_docker_password: ${{ inputs.docker_password }}
       shell: bash
