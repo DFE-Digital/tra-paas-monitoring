@@ -1,0 +1,30 @@
+name: Run Integration tests
+
+inputs:
+  monitoring_instance_name:
+    description: The name of monitoring instance
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: test prometheus
+      uses: wei/curl@master
+      with:
+        args: https://prometheus-${{ inputs.monitoring_instance_name }}.london.cloudapps.digital/api/v1/status/buildinfo
+
+    - name: test grafana
+      uses: wei/curl@master
+      with:
+        args: https://grafana-${{ inputs.monitoring_instance_name }}.london.cloudapps.digital
+
+    - name: test alert manager
+      uses: wei/curl@master
+      with:
+        args: https://alertmanager-${{ inputs.monitoring_instance_name }}.london.cloudapps.digital
+
+    - name: test billing exporter
+      uses: wei/curl@master
+      with:
+        args: https://billing-exporter-${{ inputs.monitoring_instance_name }}.london.cloudapps.digital

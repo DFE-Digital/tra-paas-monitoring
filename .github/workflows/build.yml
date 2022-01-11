@@ -7,10 +7,18 @@ on:
     paths-ignore:
     - README.md
 
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+    - main
+    paths-ignore:
+    - 'README.md'
+
 jobs:
   deploy_dev:
     name: Deploy to dev environment
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
     environment: dev
     steps:
     - uses: actions/checkout@v2
@@ -35,9 +43,15 @@ jobs:
         environment_name: dev
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Run Integration tests
+      uses: ./.github/workflows/actions/integration-test
+      with:
+        monitoring_instance_name: tra-monitoring-dev
+
   deploy_prod:
     name: Deploy to prod environment
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     needs: deploy_dev
     environment: prod
     steps:
@@ -58,3 +72,8 @@ jobs:
       with:
         environment_name: prod
         azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Run Integration tests
+      uses: ./.github/workflows/actions/integration-test
+      with:
+        monitoring_instance_name: tra-monitoring-prod
