@@ -14,7 +14,7 @@ on:
     paths-ignore:
     - 'README.md'
 
-  workdlow_dispatch:
+  workflow_dispatch:
 
 jobs:
   deploy_dev:
