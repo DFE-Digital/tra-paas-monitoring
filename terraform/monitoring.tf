@@ -1,6 +1,6 @@
 
 module "prometheus_all" {
-  source = "git::https://github.com/DFE-Digital/cf-monitoring.git//prometheus_all"
+  source = "git::https://github.com/DFE-Digital/cf-monitoring.git//prometheus_all?ref=add-docker-credential"
 
   monitoring_instance_name     = var.monitoring_instance_name
   monitoring_org_name          = local.paas_org_name
