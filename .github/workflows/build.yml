@@ -59,7 +59,7 @@ jobs:
   deploy_prod:
     name: Deploy to prod environment
     runs-on: ubuntu-latest
-    if: ( github.ref == 'refs/heads/main' ) || ( github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && ${{ github.event.inputs.environment }} == 'prod' )
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && ${{ github.event.inputs.environment }} == 'prod'
     needs: deploy_dev
     environment: prod
     steps:
