@@ -14,11 +14,19 @@ on:
     paths-ignore:
     - 'README.md'
 
+  workflow_dispatch:
+    inputs:
+      emvironment_name:
+        description: monitoring environment to deploy to
+        default: dev
+        required: true
+        type: environment
+
 jobs:
   deploy_dev:
     name: Deploy to dev environment
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == false
+    if: ( github.event_name == 'pull_request' && github.event.pull_request.draft == false ) || ( github.event_name == 'workflow_dispatch' && ${{ github.event.inputs.environment }} == 'dev' )
     environment: dev
     steps:
     - uses: actions/checkout@v2
@@ -51,7 +59,7 @@ jobs:
   deploy_prod:
     name: Deploy to prod environment
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: ( github.ref == 'refs/heads/main' ) || ( github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && ${{ github.event.inputs.environment }} == 'prod' )
     needs: deploy_dev
     environment: prod
     steps:
