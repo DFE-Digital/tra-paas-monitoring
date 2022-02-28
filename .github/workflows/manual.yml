@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: monitoring environment to deploy to
+        default: dev
+        required: true
+        type: environment
+        options:
+        - dev
+        - prod
+jobs:
+  deploy:
+    name: Deploy to ${{ github.event.inputs.environment }} environment
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch'
+    environment: ${{ github.event.inputs.environment }}
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.10
+
+    - name: Check formatting
+      run: terraform fmt -check
+      working-directory: terraform
+
+    - name: Validate
+      run: |
+        terraform init -backend=false
+        terraform validate -no-color
+      working-directory: terraform
+
+    - name: Deploy to ${{ github.event.inputs.environment }} environment
+      uses: ./.github/workflows/actions
+      with:
+        environment_name: ${{ github.event.inputs.environment }}
+        azure_credentials: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Run Integration tests
+      uses: ./.github/workflows/actions/integration-test
+      with:
+        monitoring_instance_name: tra-monitoring-${{ github.event.inputs.environment }}
