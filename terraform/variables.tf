@@ -14,3 +14,4 @@ variable "monitor_scrape_applications" {
   default = []
 }
 variable "monitor_scrape_backing_services" {}
+variable "redis_services" {}
