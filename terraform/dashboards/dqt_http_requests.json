@@ -94,7 +94,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "HTTP requests DQT",
+      "title": "HTTP requests DQT API endpoints",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -147,7 +147,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "HTTP requests DQT",
+  "title": "HTTP requests DQT API endpoints",
   "uid": "q2ps0hP7z",
   "version": 3
 }
