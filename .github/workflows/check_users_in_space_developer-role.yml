@@ -62,5 +62,5 @@ jobs:
           ./remote-checkout/scripts/check-users-in-space-developer-role.ps1 \
             -Space "${{ env.PAAS_SPACE }}" \
             -SlackWebhook "${{ steps.keyvault-yaml-secret.outputs.SLACK_WEBHOOK }}" \
-            -Unset $true \
+            -Unset \
             -Whitelist "${{ steps.get_secrets.outputs.PAAS-USER }}"
