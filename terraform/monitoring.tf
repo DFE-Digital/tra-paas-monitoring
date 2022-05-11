@@ -14,4 +14,7 @@ module "prometheus_all" {
   grafana_google_client_id     = local.secrets.GRAFANA_GOOGLE_CLIENT_ID
   grafana_google_client_secret = local.secrets.GRAFANA_GOOGLE_CLIENT_SECRET
   grafana_json_dashboards      = [file("dashboards/dqt_http_requests.json")]
+
+  alert_rules            = local.alert_rules
+  alertmanager_slack_url = local.secrets.SLACK_WEBHOOK
 }
