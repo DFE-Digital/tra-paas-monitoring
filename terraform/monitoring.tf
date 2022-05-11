@@ -14,4 +14,6 @@ module "prometheus_all" {
   grafana_google_client_id     = local.secrets.GRAFANA_GOOGLE_CLIENT_ID
   grafana_google_client_secret = local.secrets.GRAFANA_GOOGLE_CLIENT_SECRET
   grafana_json_dashboards      = [file("dashboards/dqt_http_requests.json")]
+  alertable_postgres_services  = var.alertable_postgres_services
+  postgres_dashboard_url       = var.postgres_dashboard_url
 }
