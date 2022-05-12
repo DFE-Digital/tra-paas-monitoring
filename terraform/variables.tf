@@ -15,3 +15,7 @@ variable "monitor_scrape_applications" {
 }
 variable "monitor_scrape_backing_services" {}
 variable "redis_services" {}
+variable "alertable_postgres_services" {
+  default = {}
+}
+variable "postgres_dashboard_url" { default = "" }
