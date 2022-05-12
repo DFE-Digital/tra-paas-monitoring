@@ -19,3 +19,7 @@ variable "alertable_postgres_services" {
   default = {}
 }
 variable "postgres_dashboard_url" { default = "" }
+variable "alertable_apps" {
+  default = {}
+}
+variable "apps_dashboard_url" { default = "" }
