@@ -61,7 +61,7 @@ jobs:
 
       - name: Slack Notification
         if:   fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application != 'Dummy'
-        uses: rtCamp/action-slack-notify@2
+        uses: rtCamp/action-slack-notify@v2
         env:
            SLACK_COLOR: '#ff0000'
            SLACK_TITLE: ${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application }} ${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Name }}
