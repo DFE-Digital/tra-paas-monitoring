@@ -14,10 +14,10 @@ jobs:
       - name: Select Tests
         id: select-tests
         run: |
-          d="{'environment' :'dev'          , 'principal': 's165d01-keyvault-readonly-access'}"
-          t="{'environment' :'test'          , 'principal': 's165t01-keyvault-readonly-access'}"
-          pp="{'environment' :'preprod'          , 'principal': 's165t01-preprod-keyvault-readonly-access'}"
-          p="{'environment' :'prod'         , 'principal': 's165p01-keyvault-readonly-access'}"
+          d="{'environment' :'dev'          , 'principal': 's165d01-keyvault-readonly-access', 'keyvault': 's165d01-kv'}"
+          t="{'environment' :'test'          , 'principal': 's165t01-keyvault-readonly-access', 'keyvault': 's165d01-kv'}"
+          pp="{'environment' :'preprod'          , 'principal': 's165t01-preprod-keyvault-readonly-access', 'keyvault': 's165d01-kv'}"
+          p="{'environment' :'prod'         , 'principal': 's165p01-keyvault-readonly-access', 'keyvault': 's165p01-kv'}"
           tests="{ 'data':[ ${d} ,  ${t} ,  ${pp} ,  ${p} ]}"
           echo "::set-output name=tests::${tests}"
   check_expires:
@@ -53,7 +53,7 @@ jobs:
         if:   fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application != 'Dummy'
         id:  keyvault-yaml-secret
         with:
-          keyvault: ${{ secrets.KEY_VAULT}}
+          keyvault: ${{ matrix.data.keyvault }}
           secret: MONITORING
           key: SLACK_WEBHOOK
         env:
@@ -61,7 +61,7 @@ jobs:
 
       - name: Slack Notification
         if:   fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application != 'Dummy'
-        uses: rtCamp/action-slack-notify@master
+        uses: rtCamp/action-slack-notify@2
         env:
            SLACK_COLOR: '#ff0000'
            SLACK_TITLE: ${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Application }} ${{ fromJson(steps.pwsh_check_expire.outputs.json_data).data.Name }}
